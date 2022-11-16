@@ -32,7 +32,7 @@ router.post('/login', async function (req, res, next) {
           maxAge: 60 * 60,
           sameSite: "none",
           secure: true,
-          domain: "localhost"
+          domain: "jwt-auth-be-123.herokuapp.com"
         }))
         res.status(200).json({ message: "user logged in" })
       } else {
