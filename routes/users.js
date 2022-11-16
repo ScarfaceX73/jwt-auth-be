@@ -44,7 +44,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/logout", async (req, res, next) => {
+router.get("/logout", async (_req, res) => {
   try {
     res.setHeader("Access-Control-Allow-Credentials", true);
     res.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
