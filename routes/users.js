@@ -24,9 +24,11 @@ router.get("/", async (req, res, next) => {
     if (req.headers.cookie) {
       let jwtToken = req.headers.cookie.slice(9);
       let verifiedUser = jwt.verify(jwtToken, process.env.JWT_RANDOM_KEY);
+      console.log(verifiedUser);
       let user = await userDBCollection.findOne({
-        _id: ObjectID(verifiedUser.user._id),
+        email: verifiedUser.user.email,
       });
+      console.log(user);
       if (user) {
         res.status(200).json(user);
       } else {
@@ -39,6 +41,30 @@ router.get("/", async (req, res, next) => {
     res.status(500).json({ error: JSON.stringify(error) });
   } finally {
     await client.close();
+  }
+});
+
+router.get("/logout", async (req, res, next) => {
+  try {
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    res.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Set-Cookie");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    );
+    res.setHeader(
+      "Set-Cookie",
+      cookie.serialize("jwtToken", null, {
+        httpOnly: true,
+        maxAge: 3600,
+        sameSite: "none",
+        secure: true,
+      })
+    );
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: JSON.stringify(error) });
   }
 });
 
