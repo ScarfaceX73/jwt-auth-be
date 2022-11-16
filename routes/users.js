@@ -17,8 +17,29 @@ const client = new MongoClient(uri, {
 
 /* GET users listing. */
 
-router.get("/", (req, res, next) => {
-  next();
+router.get("/", async (req, res, next) => {
+  try {
+    await client.connect();
+    let userDBCollection = client.db(db).collection("users");
+    if (req.headers.cookie) {
+      let jwtToken = req.headers.cookie.slice(9);
+      let verifiedUser = jwt.verify(jwtToken, process.env.JWT_RANDOM_KEY);
+      let user = await userDBCollection.findOne({
+        _id: ObjectID(verifiedUser.user._id),
+      });
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.sendStatus(400);
+      }
+    } else {
+      res.sendStatus(400);
+    }
+  } catch (error) {
+    res.status(500).json({ error: JSON.stringify(error) });
+  } finally {
+    await client.close();
+  }
 });
 
 router.post("/login", async function (req, res, next) {
