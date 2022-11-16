@@ -70,7 +70,7 @@ router.post("/login", async function (req, res) {
             maxAge: 60 * 60,
             sameSite: "none",
             secure: true,
-            domain: "localhost:3001",
+            domain: "http://localhost",
           })
         );
         res.status(200).json(user);
