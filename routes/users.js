@@ -33,7 +33,7 @@ router.get("/", async (req, res, next) => {
         res.sendStatus(400);
       }
     } else {
-      res.sendStatus(400);
+      res.status(400).json({ message: "no cookie" });
     }
   } catch (error) {
     res.status(500).json({ error: JSON.stringify(error) });
@@ -42,7 +42,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/login", async function (req, res, next) {
+router.post("/login", async function (req, res) {
   try {
     await client.connect();
     let userDBCollection = client.db(db).collection("users");
