@@ -62,7 +62,7 @@ router.get("/logout", async (req, res, next) => {
         secure: true,
       })
     );
-    res.status(200).json(user);
+    res.status(200).json({ message: "logout successful" });
   } catch (error) {
     res.status(500).json({ error: JSON.stringify(error) });
   }
