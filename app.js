@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
 
-  let allowedHosts = ["http://localhost:3000", "https://youthful-goldstine-c7cf0d.netlify.app"]
+  let allowedHosts = ["http://localhost:3000", "https://grand-banoffee-42055a.netlify.app"]
   if (allowedHosts.indexOf(req.headers.origin) != -1) {
     res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
     res.setHeader("Access-Control-Allow-Credentials", true);
