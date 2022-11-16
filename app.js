@@ -21,6 +21,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+
+  let allowedHosts = ["http://localhost:3000", "https://youthful-goldstine-c7cf0d.netlify.app"]
+  if (allowedHosts.indexOf(req.headers.origin) != -1) {
+    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    res.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Set-Cookie");
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  }
+  next();
+})
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/resource', resourceRouter);
