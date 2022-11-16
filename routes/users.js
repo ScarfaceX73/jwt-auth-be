@@ -67,10 +67,9 @@ router.post("/login", async function (req, res) {
           "Set-Cookie",
           cookie.serialize("jwtToken", jwtToken, {
             httpOnly: true,
-            maxAge: 60 * 60,
+            maxAge: 3600,
             sameSite: "none",
             secure: true,
-            domain: "http://localhost",
           })
         );
         res.status(200).json(user);
