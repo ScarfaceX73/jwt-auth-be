@@ -31,7 +31,8 @@ router.post('/login', async function (req, res, next) {
           httpOnly: true,
           maxAge: 60 * 60,
           sameSite: "none",
-          secure: true
+          secure: true,
+          domain: "localhost"
         }))
         res.status(200).json({ message: "user logged in" })
       } else {
