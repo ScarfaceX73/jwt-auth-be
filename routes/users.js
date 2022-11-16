@@ -53,6 +53,16 @@ router.post("/login", async function (req, res) {
         let jwtToken = jwt.sign({ user: user }, process.env.JWT_RANDOM_KEY, {
           expiresIn: 1800,
         });
+        res.setHeader("Access-Control-Allow-Credentials", true);
+        res.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
+        res.setHeader(
+          "Access-Control-Allow-Headers",
+          "Content-Type, Set-Cookie"
+        );
+        res.setHeader(
+          "Access-Control-Allow-Methods",
+          "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+        );
         res.setHeader(
           "Set-Cookie",
           cookie.serialize("jwtToken", jwtToken, {
