@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use((req, res, next) => {
   let allowedHosts = [
     "http://localhost:3001",
-    "https://grand-banoffee-42055a.netlify.app",
+    "https://63771e4373c5597d1a9b9b35--fastidious-smakager-0168bc.netlify.app",
   ];
   if (allowedHosts.indexOf(req.headers.origin) != -1) {
     res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
