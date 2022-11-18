@@ -7,6 +7,7 @@ var bcrypt = require("bcrypt");
 
 const MongoClient = require("mongodb").MongoClient;
 const cookie = require("cookie");
+const sendMail = require("../services/sendmail");
 
 const uri = process.env.MONGODB_URL;
 const db = "auth_srini_jwt";
@@ -135,7 +136,7 @@ router.post("/register", async function (req, res, next) {
       }
     } else {
       res
-        .status(500)
+        .status(401)
         .json({ message: "User exists. Please try to recover your password" });
     }
   } catch (error) {
@@ -144,6 +145,7 @@ router.post("/register", async function (req, res, next) {
     await client.close();
   }
 });
+
 
 router.post("/forgot-password", async function (req, res, next) {
   try {
@@ -155,7 +157,7 @@ router.post("/forgot-password", async function (req, res, next) {
     if (!user) {
       res.status(404).json({ message: "User not found" });
     } else {
-      // send mail
+      const resp = sendMail(user.email)
       res.status(200).json({ message: "Check your mail to continue" });
     }
   } catch (error) {
@@ -168,5 +170,31 @@ router.post("/forgot-password", async function (req, res, next) {
 router.put("/reset-password", function (req, res, next) {
   res.send("respond with a resource");
 });
+
+router.post("/shortUrls", async (req, res) => {
+  try {
+    await shortUrl.create({ full: req.body.fullUrl })
+    res.redirect("http://localhost:3001/url")
+  } catch (error) {
+    res.status(500).json({ message: "Some error... I don't know" });
+  }
+})
+
+router.get("/getShortUrls", async (req, res) => {
+  await client.connect();
+  let urlDBCollection = client.db(db).collection("short_urls");
+  try {
+    let shortUrl = await urlDBCollection.findOne({
+      full: req.body.fullUrl,
+    }).toArray();
+    res.send(shortUrl);
+    res.redirect("http://localhost:3001/url")
+  } catch (error) {
+    res.status(500).json({ message: "Some error... I don't know" });
+  }
+})
+
+
+
 
 module.exports = router;

@@ -15,8 +15,13 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
+    "mailtrap": "^3.0.1",
     "mongodb": "^4.11.0",
+    "mongoose": "^6.7.2",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.20"
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "shortid": "^2.2.16",
+    "uuid": "^9.0.0"
   }
 }
